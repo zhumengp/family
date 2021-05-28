@@ -1,0 +1,29 @@
+server:
+  port: 8088
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: Tianzmp923* # 密码
+    username: root # 用户名
+    url: jdbc:mysql://172.20.48.141:3306/famliy_bill #数据库访问地址
+    type: com.alibaba.druid.pool.DruidDataSource #阿里巴巴的连接池
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  config-location: classpath:mapper/mybatis-config.xml
+pagehelper:
+  helper-dialect: mysql
+  reasonable: false
+  support-methods-arguments: true
+  page-size-zero: false
+  auto-dialect: false
+  close-conn: false
+  params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
+  offset-as-page-num: false
+  row-bounds-with-count: false
+system:
+  filePath: /usr/local/famliy/data/ # 图片存储路径
+  url: http://www.tianzmp.com/famliyData # 图片访问地址

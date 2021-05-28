@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zhump.familybill.dao.UserFlowDao">
+
+    <!-- 实体和表的映射关系 -->
+    <resultMap type="org.zhump.familybill.module.UserFlow" id="responseMap">
+        <result column="ID" property="id"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="CATEGORY_ID" property="categoryId"/>
+        <result column="PRICE" property="price"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="COMSUME_TIME" property="comsumeTime"/>
+        <result column="REMARK" property="remark"/>
+    </resultMap>
+    <!-- 获取所有数据 -->
+
+    <insert id="insert" parameterType="org.zhump.familybill.module.Category">
+        insert into user_flow (USER_ID,CATEGORY_ID,PRICE,COMSUME_TIME,REMARK)
+        VALUES (#{userId},#{categoryId},#{price},#{comsumeTime},#{remark})
+    </insert>
+
+    <select id="selectAll" resultMap="responseMap" parameterType="map">
+        select * from user_flow where 1 = 1
+        <if test="startTime != null and startTime != ''">
+        and COMSUME_TIME <![CDATA[>=]]> #{startTime}
+        and COMSUME_TIME <![CDATA[<=]]> #{endTime}
+        </if>
+        <if test="categoryId != null ">
+           and  CATEGORY_ID = #{categoryId}
+        </if>
+
+         order by COMSUME_TIME desc
+    </select>
+
+    <!--按月统计-->
+    <select id="selectMonth" resultType="map" parameterType="map">
+       SELECT DATE_FORMAT(COMSUME_TIME, '%Y-%m') mont, SUM(price) price,create_time as createTime,
+       update_time as updateTime
+       FROM user_flow
+             GROUP BY mont
+    </select>
+
+    <!--删除-->
+    <delete id="delete" parameterType="long">
+        delete from user_flow where id = #{id}
+    </delete>
+
+    <!--编辑-->
+    <update id="update" parameterType="org.zhump.familybill.module.UserFlow">
+        update user_flow
+        <set>
+            <if test="categoryId != null">
+                CATEGORY_ID = #{categoryId},
+            </if>
+            <if test="price != null">
+                PRICE = #{price},
+            </if>
+            <if test="comsumeTime != null">
+                COMSUME_TIME = #{comsumeTime},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--按分类汇总-->
+    <select id="categoryChart" resultType="map">
+        SELECT SUM(a.`price`) AS price,b.`remark` FROM user_flow AS a LEFT JOIN category AS b ON a.`category_id` = b.`id`
+        GROUP BY a.`category_id`
+    </select>
+
+
+    <select id="cateMontChart" resultType="org.zhump.familybill.vo.CateMontChartDTO" parameterType="map">
+        SELECT a.`remark`,DATE_FORMAT(b.`comsume_time`, '%Y-%m') mont ,SUM(b.`price`) AS price,a.id AS categoryId FROM (SELECT id,remark FROM category WHERE id IN (1,3,4,5,7,11,12,13,14)) AS a LEFT JOIN user_flow AS b ON a.`id` = b.`category_id`
+        <where>
+            <if test="categoryId != null">
+                a.id = #{categoryId}
+            </if>
+        </where>
+        GROUP BY mont,a.`id`  ;
+    </select>
+
+    <select id="selectYears" resultType="map">
+        SELECT DATE_FORMAT(t.COMSUME_TIME,'%Y') year_time,SUM(t.price) price FROM `user_flow` t GROUP BY year_time;
+    </select>
+
+
+
+
+
+
+</mapper>

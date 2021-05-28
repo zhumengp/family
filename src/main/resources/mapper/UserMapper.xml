@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zhump.familybill.dao.UserDao">
+
+        <!-- 实体和表的映射关系 -->
+        <resultMap type="org.zhump.familybill.module.User" id="responseMap">
+            <result column="ID" property="id"/>
+            <result column="USER_NAME" property="userName"/>
+            <result column="AGE" property="age"/>
+            <result column="IMAGE_URL" property="imageUrl"/>
+            <result column="PHONE" property="phone"/>
+            <result column="QQ" property="qq"/>
+            <result column="WX" property="wx"/>
+            <result column="CREATE_TIME" property="createTime"/>
+            <result column="UPDATE_TIME" property="updateTime"/>
+            <result column="ACCOUNT_NAME" property="accountName"/>
+            <result column="PASSWORD" property="password"/>
+            <result column="salt" property="salt"/>
+            <result column="locked" property="locked"/>
+        </resultMap>
+        <!-- 获取所有数据 -->
+        <select id="selectAll" parameterType="java.util.Map" resultMap="responseMap">
+            SELECT * FROM user where 1=1
+
+            <if test="accountName != null">
+                and ACCOUNT_NAME = #{accountName}
+            </if>
+        </select>
+
+    <insert id="insert" parameterType="org.zhump.familybill.module.User" >
+        insert into user(USER_NAME,AGE,IMAGE_URL,PHONE,QQ,WX,ACCOUNT_NAME,PASSWORD,salt,locked)
+        VALUES  (#{userName},#{age},#{imageUrl},#{phone},#{qq},#{wx},#{accountName},#{password},#{salt},#{locked})
+    </insert>
+
+
+    <select id="getByid" parameterType="long" resultMap="responseMap">
+        select * from user category where 1=1 and id =#{id}
+    </select>
+
+    <update id="update" parameterType="org.zhump.familybill.module.User">
+        update user
+        <set>
+            <if test="userName != null">
+                USER_NAME = #{userName},
+            </if>
+            <if test="age != null">
+                AGE = #{age},
+            </if>
+            <if test="imageUrl != null">
+                IMAGE_URL = #{imageUrl},
+            </if>
+            <if test="phone != null">
+                PHONE = #{phone},
+            </if>
+            <if test="accountName != null">
+                ACCOUNT_NAME = #{accountName},
+            </if>
+            <if test="password != null">
+                PASSWORD = #{password},
+            </if>
+            <if test="salt != null">
+                salt = #{salt},
+            </if>
+            <if test="locked != null">
+                locked = #{locked}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        delete from user where id = #{id}
+    </delete>
+</mapper>

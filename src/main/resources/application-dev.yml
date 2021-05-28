@@ -1,0 +1,29 @@
+server:
+  port: 8088
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver # mysql连接驱动
+    password: 123456 #密码
+    username: root # 用户名
+    url: jdbc:mysql://192.168.112.100:3306/famil_bill #数据库连接地址
+    type: com.alibaba.druid.pool.DruidDataSource #阿里巴巴的连接池
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml # mybatis
+  config-location: classpath:mapper/mybatis-config.xml
+pagehelper: #分页
+  helper-dialect: mysql
+  reasonable: false
+  support-methods-arguments: true
+  page-size-zero: false
+  auto-dialect: false
+  close-conn: false
+  params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
+  offset-as-page-num: false
+  row-bounds-with-count: false
+system:
+  filePath: /opt/aboss/data/
+  url: http://zhump.com.net/dspData

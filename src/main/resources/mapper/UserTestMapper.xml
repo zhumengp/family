@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zhump.familybill.dao.UserTestDao">
+
+    <!-- 实体和表的映射关系 -->
+    <resultMap type="org.zhump.familybill.module.UserTest" id="responseMap">
+        <result column="id" property="id"/>
+        <result column="points" property="points"/>
+        <result column="seckey" property="seckey"/>
+    </resultMap>
+    <!-- 获取所有数据 -->
+
+    <update id="update" parameterType="org.zhump.familybill.module.UserTest">
+        update user_test
+            <set>
+                <if test="points != null">
+                    points = #{points},
+                </if>
+                <if test="seckey != null">
+                </if>
+            </set>
+        where  id = #{id}
+    </update>
+
+    <update id="updateId">
+        update user_test set points = points - #{points}
+        where id = #{id}
+    </update>
+
+    <update id="updatePointsAdd">
+        update user_test set points = points + #{points}
+        where id = #{id}
+    </update>
+
+    <select id="select" resultMap="responseMap">
+        select * from user_test where id = #{id}
+    </select>
+
+
+</mapper>

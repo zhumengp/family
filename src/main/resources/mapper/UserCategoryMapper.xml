@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zhump.familybill.dao.UserCategoryDao">
+
+    <!-- 实体和表的映射关系 -->
+    <resultMap type="org.zhump.familybill.module.UserCategory" id="responseMap">
+        <result column="USER_ID" property="userId"/>
+        <result column="CATEGORY_ID" property="categoryId"/>
+    </resultMap>
+    <!-- 获取所有数据 -->
+
+    <insert id="insert" parameterType="org.zhump.familybill.module.Category">
+        insert into category (USER_ID,CATEGORY_ID)
+        VALUES (#{userId},#{categoryId})
+    </insert>
+
+
+</mapper>
