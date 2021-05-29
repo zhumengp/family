@@ -1,11 +1,15 @@
 package org.zhump.familybill;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.PostConstruct;
 
 
 /**
@@ -16,24 +20,29 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  *@date 2021/4/10 20:25
  */
 @SpringBootApplication
+@Log4j2
 public class FamilyBillApplication extends SpringBootServletInitializer {
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     public static void main(String[] args) {
-//        System.out.println("-------------------开启线程----------------");
-//        Thread thread = new Thread(new DeductionPointsRunable());
-//        thread.setName("扣积分线程");
-//        thread.start();
-//
-//        Thread t2 = new Thread(new SendPointsRunable());
-//        t2.setName("加积分线程");
-//        t2.start();
-//        System.out.println("-------------------积分操作结束-----------------");
         SpringApplication.run(FamilyBillApplication.class, args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(FamilyBillApplication.class);
+    }
 
+    @PostConstruct
+    public void init(){
+        log.info("--------------日志测试---------------");
+        redisTemplate.opsForValue().set("zhu","mengping");
+        Object zhu = redisTemplate.opsForValue().get("zhu");
+        log.error("------------错误日志测试------------");
+        System.out.println("zhu:"+zhu);
+        log.warn("-------------警告日志测试------------");
+        log.debug("------------ debug测试--------------");
     }
 }

@@ -21,11 +21,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
-                <!--移除tomcat,使用外部tomcat跑-->
+                <!--移除tomcat,使用外部tomcat跑
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
+                </exclusion>-->
                 <!--去掉自带日志-->
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>

@@ -11,6 +11,11 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+
+  redis:
+    host: 47.113.190.200 # redis 地址\
+    password: 123456 # redis 密码
+    port: 6380
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   config-location: classpath:mapper/mybatis-config.xml

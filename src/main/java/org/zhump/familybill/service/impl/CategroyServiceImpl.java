@@ -25,6 +25,11 @@ public class CategroyServiceImpl implements CategoryService {
     private CategoryDao categoryDao;
 
 
+    /**
+     * 新增分类
+     * @param name
+     * @return
+     */
     @Override
     public boolean insert(String name) {
         Category category = new Category();
@@ -34,9 +39,9 @@ public class CategroyServiceImpl implements CategoryService {
     }
 
      /**
-      * TODO 描述一下这个方法是干嘛用的
-      * @param pageIndex:
-         * @param pageSize:
+      * TODO 分页查询
+      * @param pageIndex: 当前页
+         * @param pageSize: 当前页条数
       * @author zhump
       * @return org.zhump.familybill.module.PageInfo<java.util.List<org.zhump.familybill.module.Category>>
       * @date 2021/4/10 20:19
