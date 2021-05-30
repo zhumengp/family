@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
 
 
     @Override
-    public String login(String accountName, String password) throws Exception {
+    public String login(String accountName, String password) throws Exception{
         Map<String,Object> map = new HashMap<>(16);
         map.put("accountName",accountName);
         //校验用户回是否是我需要账号

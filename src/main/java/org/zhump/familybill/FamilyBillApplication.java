@@ -34,15 +34,4 @@ public class FamilyBillApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(FamilyBillApplication.class);
     }
-
-    @PostConstruct
-    public void init(){
-        log.info("--------------日志测试---------------");
-        redisTemplate.opsForValue().set("zhu","mengping");
-        Object zhu = redisTemplate.opsForValue().get("zhu");
-        log.error("------------错误日志测试------------");
-        System.out.println("zhu:"+zhu);
-        log.warn("-------------警告日志测试------------");
-        log.debug("------------ debug测试--------------");
-    }
 }

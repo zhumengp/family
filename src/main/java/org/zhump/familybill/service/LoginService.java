@@ -18,5 +18,5 @@ public interface LoginService {
      * @date 2021/4/10 20:29
      * @throws Exception
      */
-    String login(String accountName, String password) throws Exception;
+    String login(String accountName, String password)  throws Exception;
 }

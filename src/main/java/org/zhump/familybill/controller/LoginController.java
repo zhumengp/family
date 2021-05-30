@@ -9,6 +9,7 @@ import org.zhump.familybill.contants.Constants;
 import org.zhump.familybill.contants.ResultWrap;
 import org.zhump.familybill.controller.exception.BusinessException;
 import org.zhump.familybill.service.LoginService;
+import org.zhump.familybill.util.RedisUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,9 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
     /**
      * 新增
      * @param accountName 用户名
@@ -38,6 +42,8 @@ public class LoginController {
             String token = loginService.login(accountName, password);
             Map<String,Object> map = new HashMap<String,Object>(16);
             map.put("token",token);
+            //将用户token存入redis
+            redisUtils.set("USER_INFO:"+accountName,token);
             return  new ResultWrap(Constants.Status.SUCCESS,map);
 
         }catch (Exception e){
