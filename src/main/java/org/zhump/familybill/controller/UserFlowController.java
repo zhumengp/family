@@ -3,6 +3,7 @@ package org.zhump.familybill.controller;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +113,7 @@ public class UserFlowController {
             PageInfo<List<UserFlowListRsponse>> resutl = new PageInfo<List<UserFlowListRsponse>>(pageIndex,pageSize,pageInfo.getTotalCount(),list);
             return new ResultWrap<PageInfo<List<UserFlowListRsponse>>>(Constants.Status.SUCCESS,resutl);
         }catch (Exception e){
-            return new ResultWrap<PageInfo<List<UserFlowListRsponse>>>(Constants.Status.Error,null);
+            return new ResultWrap<PageInfo<List<UserFlowListRsponse>>>(Constants.Status.Error);
         }
 
     }
@@ -126,13 +127,12 @@ public class UserFlowController {
     public ResultWrap<PageInfo<List<UserFlowChartRsponse>>> chart(@RequestParam(value="pageIndex",required= true,defaultValue = "1")Integer pageIndex,
                                                         @RequestParam(value="pageSize",required= true,defaultValue = "10")Integer pageSize){
         PageInfo<List<Map<String, Object>>> pageInfo = userFlowService.selectMonth(pageIndex, pageSize);
-        List<UserFlowChartRsponse> rlist = new ArrayList<>();
         if (pageInfo == null){
-            PageInfo<List<UserFlowChartRsponse>> resutl = new PageInfo<List<UserFlowChartRsponse>>(pageIndex,pageSize,pageInfo.getTotalCount(),rlist);
+            PageInfo<List<UserFlowChartRsponse>> resutl = new PageInfo<List<UserFlowChartRsponse>>(pageIndex,pageSize,pageInfo.getTotalCount(),Collections.EMPTY_LIST);
             return new ResultWrap<PageInfo<List<UserFlowChartRsponse>>>(Constants.Status.SUCCESS,resutl);
         }
         List<Map<String, Object>> data = pageInfo.getData();
-        data.stream().forEach(map -> {
+        List<UserFlowChartRsponse> rlist = data.stream().map(map -> {
             UserFlowChartRsponse userFlowChartRsponse = new UserFlowChartRsponse();
             String date = map.get("mont").toString();
             String price = map.get("price").toString();
@@ -142,9 +142,9 @@ public class UserFlowController {
             userFlowChartRsponse.setPrice(price);
             userFlowChartRsponse.setCreateTime(createTime);
             userFlowChartRsponse.setUpdateTime(updateTime);
-            rlist.add(userFlowChartRsponse);
+            return userFlowChartRsponse;
 
-        });
+        }).collect(Collectors.toList());
         PageInfo<List<UserFlowChartRsponse>> resutl = new PageInfo<List<UserFlowChartRsponse>>(pageIndex,pageSize,pageInfo.getTotalCount(),rlist);
         return new ResultWrap<PageInfo<List<UserFlowChartRsponse>>>(Constants.Status.SUCCESS,resutl);
     }
