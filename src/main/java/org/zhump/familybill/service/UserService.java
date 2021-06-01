@@ -81,4 +81,11 @@ public interface UserService {
     */
     boolean delete(long id) throws Exception;
 
+    /**
+     * 根据用户账号名称查询
+     * @param name
+     * @return
+     */
+    User findAccountName(String name);
+
 }

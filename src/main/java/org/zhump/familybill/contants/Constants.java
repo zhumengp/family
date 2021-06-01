@@ -23,7 +23,11 @@ public class Constants {
 		/**
 		 * 网络，系统异常
 		 */
-		Error(500,"系统异常")
+		Error(500,"系统异常"),
+		/**
+		 * 用户名重复
+		 */
+		ACCOUNT_NAME(100001,"用户名重复")
 		;
 
 		/**

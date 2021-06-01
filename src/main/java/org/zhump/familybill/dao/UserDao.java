@@ -1,6 +1,7 @@
 package org.zhump.familybill.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.zhump.familybill.module.User;
 
 import java.util.List;
@@ -24,7 +25,14 @@ public interface UserDao {
      */
     List<User> selectAll(Map<String,Object> map);
 
-   /**
+    /**
+     * 根据用户名查询用户信息
+     * @param accountName
+     * @return
+     */
+    User findByAccountName(@Param("accountName") String accountName);
+
+  /**
     * 新增用户
     * @param user:
     * @author zhump

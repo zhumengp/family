@@ -26,7 +26,10 @@
                 and ACCOUNT_NAME = #{accountName}
             </if>
         </select>
-
+    <!-- 根据账号查询用户信息 -->
+    <select id="findByAccountName" resultMap="responseMap">
+        SELECT * FROM user where 1=1 and ACCOUNT_NAME = #{accountName}
+    </select>
     <insert id="insert" parameterType="org.zhump.familybill.module.User" >
         insert into user(USER_NAME,AGE,IMAGE_URL,PHONE,QQ,WX,ACCOUNT_NAME,PASSWORD,salt,locked)
         VALUES  (#{userName},#{age},#{imageUrl},#{phone},#{qq},#{wx},#{accountName},#{password},#{salt},#{locked})

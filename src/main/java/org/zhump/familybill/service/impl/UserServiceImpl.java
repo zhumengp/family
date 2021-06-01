@@ -123,4 +123,13 @@ public class UserServiceImpl implements UserService {
         return res >= 0 ? true : false;
     }
 
+    /**
+     * 根据用户名查询
+     * @param name
+     * @return
+     */
+    @Override
+    public User findAccountName(String name) {
+        return userDao.findByAccountName(name);
+    }
 }

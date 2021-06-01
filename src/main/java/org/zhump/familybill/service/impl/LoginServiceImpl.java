@@ -1,10 +1,12 @@
 package org.zhump.familybill.service.impl;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.zhump.familybill.controller.exception.BusinessException;
+import org.zhump.familybill.controller.response.LoginUserRsponse;
 import org.zhump.familybill.dao.UserDao;
 import org.zhump.familybill.module.User;
 import org.zhump.familybill.service.LoginService;
@@ -30,26 +32,29 @@ public class LoginServiceImpl implements LoginService {
 
 
     @Override
-    public String login(String accountName, String password) throws Exception{
-        Map<String,Object> map = new HashMap<>(16);
-        map.put("accountName",accountName);
+    public LoginUserRsponse login(String accountName, String password) throws Exception{
+        LoginUserRsponse loginUserRsponse = new LoginUserRsponse();
         //校验用户回是否是我需要账号
-        List<User> users = userDao.selectAll(map);
-        if (users == null | users.size() <=0){
+        User user = userDao.findByAccountName(accountName);
+        if (user == null){
             throw new BusinessException("用户名或者账户密码错误");
-
         }
-        //校验用户密码
         //旧密码
-        String oldPassword=users.get(0).getPassword();
-        String salt = users.get(0).getSalt();
+        String oldPassword=user.getPassword();
         //新密码
-        String newPassword = Md5Util.getMd5Str(password+salt);
-        //新密码
+        String newPassword = Md5Util.getMd5Str(password+user.getSalt());
+        //比对密码
         if(!newPassword.equals(oldPassword)){
             throw new BusinessException("用户名或者账户密码错误");
         }
-        String token = JwtUtil.getToken(users.get(0).getId()+"");
-        return token;
+        BeanUtils.copyProperties(user,loginUserRsponse);
+        String token = JwtUtil.getToken(String.valueOf(user.getId()));
+        loginUserRsponse.setToken(token);
+        return loginUserRsponse;
+    }
+
+    @Override
+    public User findByAccountName(String accountName) {
+        return userDao.findByAccountName(accountName);
     }
 }

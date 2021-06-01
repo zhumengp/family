@@ -3,7 +3,6 @@ package org.zhump.familybill.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.zhump.familybill.contants.Constants;
-import org.zhump.familybill.contants.Result;
 import org.zhump.familybill.contants.ResultWrap;
 import org.zhump.familybill.module.Category;
 import org.zhump.familybill.module.PageInfo;
@@ -37,9 +36,9 @@ public class CategoryController {
      * @throws
      */
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
-    public Result insert(@RequestParam(value = "name",required = true) String name){
+    public ResultWrap insert(@RequestParam(value = "name",required = true) String name){
         categoryService.insert(name);
-        return  new Result(200,"操作成功","");
+        return  new ResultWrap(Constants.Status.SUCCESS);
     }
 
     /**

@@ -65,16 +65,21 @@ public class UserController {
      */
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     public ResultWrap insert(UserInsertRequest userInsertRequest){
+        //根据用户账号去数据库里面查询.如果存在,则不允许重复
+        User accountName = userService.findAccountName(userInsertRequest.getAccountName());
+        if(accountName != null){
+            return new ResultWrap<>(Constants.Status.ACCOUNT_NAME);
+        }
         try {
             User user = new User();
             BeanUtils.copyProperties(userInsertRequest,user);
             userService.insert(user);
-            return  new ResultWrap(Constants.Status.SUCCESS,"");
+            return  new ResultWrap(Constants.Status.SUCCESS);
         }catch (Exception e){
             if (e instanceof BusinessException){
                 return new ResultWrap(Constants.Status.FAIL,e.getMessage());
             }
-            return new ResultWrap<>(Constants.Status.Error,"");
+            return new ResultWrap<>(Constants.Status.Error);
         }
     }
 
