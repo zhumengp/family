@@ -8,9 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.zhump.familybill.filter.LoginInterceptor;
 
 /**
  *@Title MyConfiguration
@@ -22,8 +20,6 @@ import org.zhump.familybill.filter.LoginInterceptor;
 @Configuration
 public class MyConfiguration implements WebMvcConfigurer {
 
-    @Autowired
-    private LoginInterceptor loginInterceptor;
 
     /**
      * 支持跨域请求
@@ -44,20 +40,4 @@ public class MyConfiguration implements WebMvcConfigurer {
         source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(source);
     }
-
-   /**
-    * 加入拦截
-    *
-    * @param registry
-    * @author zhump
-    * @return void
-    * @date 2021/4/10 20:58
-    * @throws
-    */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-	    registry.addInterceptor(loginInterceptor).excludePathPatterns("/login/**");
-
-    }
-}
+ }

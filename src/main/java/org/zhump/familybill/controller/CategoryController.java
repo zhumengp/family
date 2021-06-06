@@ -1,6 +1,7 @@
 package org.zhump.familybill.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.zhump.familybill.contants.Constants;
 import org.zhump.familybill.contants.ResultWrap;
@@ -35,6 +36,7 @@ public class CategoryController {
      * @date 2021/4/10 20:50
      * @throws
      */
+    @PreAuthorize("hasAuthority('category:add')")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     public ResultWrap insert(@RequestParam(value = "name",required = true) String name){
         categoryService.insert(name);
@@ -49,6 +51,7 @@ public class CategoryController {
      * @date 2021/4/10 20:51
      * @throws
      */
+    @PreAuthorize("hasAuthority('category:view')")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public ResultWrap<List<Category>> list(){
         List<Category> result = categoryService.selectAll();
@@ -65,6 +68,7 @@ public class CategoryController {
      * @date 2021/4/10 20:51
      * @throws
      */
+    @PreAuthorize("hasAuthority('category:view')")
     @RequestMapping(value = "/page",method = RequestMethod.POST)
     public ResultWrap<PageInfo<List<Category>>> page(@RequestParam(value="pageIndex",required= true,defaultValue = "1")Integer pageIndex,
                                            @RequestParam(value="pageSize",required= true,defaultValue = "10")Integer pageSize){
@@ -78,6 +82,7 @@ public class CategoryController {
      * @param name
      * @return
      */
+    @PreAuthorize("hasAuthority('category:update')")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public ResultWrap update(@RequestParam(value="id",required= true) long id,
                                                      @RequestParam(value="name",required= true)String name){
@@ -90,6 +95,7 @@ public class CategoryController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAuthority('category:delete')")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultWrap delete(@RequestParam(value = "id",required = true) long id){

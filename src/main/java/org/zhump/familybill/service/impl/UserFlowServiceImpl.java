@@ -2,6 +2,7 @@ package org.zhump.familybill.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zhump.familybill.controller.response.UserFlowCateMontChartResponse;
@@ -9,6 +10,7 @@ import org.zhump.familybill.dao.UserFlowDao;
 import org.zhump.familybill.module.Category;
 import org.zhump.familybill.module.PageInfo;
 import org.zhump.familybill.module.UserFlow;
+import org.zhump.familybill.security.SecurityContextUtils;
 import org.zhump.familybill.service.CategoryService;
 import org.zhump.familybill.service.UserFlowService;
 
@@ -74,7 +76,9 @@ public class UserFlowServiceImpl implements UserFlowService {
         if (categoryId != null){
             map.put("categoryId",categoryId);
         }
-        map.put("userId","1");
+        //用户Id
+        long userId = SecurityContextUtils.getLoginUserinfo().getId();
+        map.put("userId",userId);
         this.userFlowDao.selectAll(map);
         long total = page.getTotal();
         if(total <=0 ) {

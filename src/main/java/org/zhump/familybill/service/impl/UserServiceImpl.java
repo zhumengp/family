@@ -88,7 +88,6 @@ public class UserServiceImpl implements UserService {
     public User getByid(long id) throws Exception{
         return userDao.getByid(id);
     }
-
     /**
      * 编辑
      * @param user

@@ -71,4 +71,8 @@ public class LoginUserRsponse {
      * 年龄
      */
     private Integer age;
+
+    private String[] authorities;
+
+
 }

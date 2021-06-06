@@ -1,5 +1,6 @@
 package org.zhump.familybill.security;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.zhump.familybill.controller.exception.BusinessException;
 import org.zhump.familybill.controller.response.LoginUserRsponse;
 import org.zhump.familybill.module.User;
@@ -17,9 +20,14 @@ import org.zhump.familybill.service.UserService;
 import org.zhump.familybill.util.JwtUtil;
 import org.zhump.familybill.util.Md5Util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 数据库校验身份
  */
+@Component
+@Log4j2
 public class DbAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
@@ -27,6 +35,7 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        log.info("进入 DbAuthenticationProvider：authenticate()...");
         //用户名
         String accountName = authentication.getName();
         //判断用户名是否为空
@@ -56,11 +65,12 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
         BeanUtils.copyProperties(user,loginUserRsponse);
         String token = JwtUtil.getToken(String.valueOf(user.getId()));
         loginUserRsponse.setToken(token);
-        return new UsernamePasswordAuthenticationToken(loginUserRsponse,loginUserRsponse.getToken());
+        loginUserRsponse.setAuthorities(new String[]{"category:view"});
+        return new UsernamePasswordAuthenticationToken(loginUserRsponse,loginUserRsponse.getAccountName(), AuthorityUtils.createAuthorityList(loginUserRsponse.getAuthorities()));
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
+    public boolean supports(Class<?> authenticatetion) {
         return true;
     }
 }

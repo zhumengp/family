@@ -29,6 +29,9 @@
         <if test="categoryId != null ">
            and  CATEGORY_ID = #{categoryId}
         </if>
+        <if test="userId != null">
+            and USER_ID = #{userId}
+        </if>
 
          order by COMSUME_TIME desc
     </select>

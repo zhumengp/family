@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,27 +90,25 @@ public class UserFlowController {
         	return new ResultWrap<PageInfo<List<UserFlowListRsponse>>>(Constants.Status.SUCCESS,resutl);
         }
         List<UserFlow> userFlows = pageInfo.getData();
-        List<UserFlowListRsponse> list = new ArrayList<>(userFlows.size());
-
         try {
-            for (UserFlow userFlow :userFlows){
+            List<UserFlowListRsponse> list = userFlows.stream().map(userFlow->{
                 UserFlowListRsponse userFlowListRsponse = new UserFlowListRsponse();
-                userFlowListRsponse.setId(userFlow.getId());
-                userFlowListRsponse.setCreateTime(userFlow.getCreateTime());
-                userFlowListRsponse.setUpdateTime(userFlow.getUpdateTime());
-                userFlowListRsponse.setRemark(userFlow.getRemark());
+                BeanUtils.copyProperties(userFlow,userFlowListRsponse);
                 Date comsumeTime = userFlow.getComsumeTime();
                 String format = DateFormatUtils.format(comsumeTime, "yyyy-MM-dd HH:mm:ss");
                 userFlowListRsponse.setComsumeTime(format);
                 Category category = categoryService.getById(userFlow.getCategoryId());
                 userFlowListRsponse.setCategoryName(category.getRemark());
-                User user = userService.getByid(userFlow.getUserId());
-                userFlowListRsponse.setUserName(user.getUserName());
-                userFlowListRsponse.setUserId(user.getId());
-                userFlowListRsponse.setCategoryId(category.getId());
-                userFlowListRsponse.setPrice(userFlow.getPrice());
-                list.add(userFlowListRsponse);
-            }
+                try {
+                    User user = userService.getByid(userFlow.getUserId());
+                    userFlowListRsponse.setUserName(user.getUserName());
+                    userFlowListRsponse.setUserId(user.getId());
+                    userFlowListRsponse.setCategoryId(category.getId());
+                }catch (Exception e){
+
+                }
+                return userFlowListRsponse;
+            }).collect(Collectors.toList());
             PageInfo<List<UserFlowListRsponse>> resutl = new PageInfo<List<UserFlowListRsponse>>(pageIndex,pageSize,pageInfo.getTotalCount(),list);
             return new ResultWrap<PageInfo<List<UserFlowListRsponse>>>(Constants.Status.SUCCESS,resutl);
         }catch (Exception e){

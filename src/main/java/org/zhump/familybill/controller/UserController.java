@@ -2,6 +2,7 @@ package org.zhump.familybill.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.zhump.familybill.contants.Constants;
 import org.zhump.familybill.contants.ResultWrap;
@@ -31,6 +32,7 @@ public class UserController {
      * 查询所有
      * @return
      */
+    @PreAuthorize("hasAuthority('user:view')")
     @RequestMapping(value = "/list")
     public ResultWrap<List<User>> selectAll(){
         try {
@@ -47,6 +49,7 @@ public class UserController {
      * @param pageSize
      * @return
      */
+    @PreAuthorize("hasAuthority('category:view')")
     @RequestMapping(value = "/page")
     public ResultWrap page(@RequestParam(value="pageIndex",required= true,defaultValue = "1")Integer pageIndex,
                                                   @RequestParam(value="pageSize",required= true,defaultValue = "10")Integer pageSize){
@@ -63,6 +66,7 @@ public class UserController {
      * @param userInsertRequest 姓名
      * @return
      */
+    @PreAuthorize("hasAuthority('user:add')")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     public ResultWrap insert(UserInsertRequest userInsertRequest){
         //根据用户账号去数据库里面查询.如果存在,则不允许重复
@@ -89,16 +93,15 @@ public class UserController {
      * @param userUpdateRequest 编辑参数
      * @return
      */
+    @PreAuthorize("hasAuthority('user:update')")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public ResultWrap update(UserUpdateRequest userUpdateRequest){
         try {
             User user = new User();
             BeanUtils.copyProperties(userUpdateRequest,user);
             boolean update = userService.update(user);
-            if (update){
-                return new ResultWrap<>(Constants.Status.SUCCESS,update);
-            }
-            return new ResultWrap<>(Constants.Status.FAIL,update);
+            return update == true ? new ResultWrap<>(Constants.Status.SUCCESS,update)
+            : new ResultWrap<>(Constants.Status.FAIL,update);
         }catch (Exception e){
             if (e instanceof BusinessException){
                 return new ResultWrap(Constants.Status.FAIL,e.getMessage());
@@ -114,6 +117,7 @@ public class UserController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAuthority('category:delete')")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultWrap delete(@RequestParam(value = "id",required = true) long id){
