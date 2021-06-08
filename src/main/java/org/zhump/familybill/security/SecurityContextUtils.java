@@ -1,6 +1,5 @@
 package org.zhump.familybill.security;
 
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.zhump.familybill.controller.response.LoginUserRsponse;
 

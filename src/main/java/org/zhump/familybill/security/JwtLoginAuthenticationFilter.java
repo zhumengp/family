@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.zhump.familybill.contants.PerssionConfig;
 import org.zhump.familybill.controller.response.LoginUserRsponse;
 import org.zhump.familybill.module.User;
 import org.zhump.familybill.service.UserService;
@@ -61,6 +62,7 @@ public class JwtLoginAuthenticationFilter extends BasicAuthenticationFilter {
 
     /**
      * 解析token中的信息
+     * 这里走数据库查询一遍数据权限，是非登录接口进来，所以这里要重新设置一遍权限
      */
     private UsernamePasswordAuthenticationToken getAuthentication(Long id) {
         try {
@@ -70,7 +72,7 @@ public class JwtLoginAuthenticationFilter extends BasicAuthenticationFilter {
                 BeanUtils.copyProperties(user,loginUserRsponse);
                 String token = JwtUtil.getToken(String.valueOf(user.getId()));
                 loginUserRsponse.setToken(token);
-                loginUserRsponse.setAuthorities(new String[]{"category:view"});
+                loginUserRsponse.setAuthorities(PerssionConfig.getPerssionList().stream().map(u->u).toArray(String[]::new));
                 return new UsernamePasswordAuthenticationToken(loginUserRsponse,loginUserRsponse.getAccountName(), AuthorityUtils.createAuthorityList(loginUserRsponse.getAuthorities()));
             }
             return null;

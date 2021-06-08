@@ -12,6 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.zhump.familybill.contants.PerssionConfig;
 import org.zhump.familybill.controller.exception.BusinessException;
 import org.zhump.familybill.controller.response.LoginUserRsponse;
 import org.zhump.familybill.module.User;
@@ -33,6 +34,14 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private LoginService loginService;
 
+    /**
+    * Title:
+    * Description:这里登录设置返回权限，主要是返回给前端进行权限控制
+     *
+    * @author zhump
+    * @version 1.0.0
+    * @date 2021/6/9 0:38
+    */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         log.info("进入 DbAuthenticationProvider：authenticate()...");
@@ -65,7 +74,7 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
         BeanUtils.copyProperties(user,loginUserRsponse);
         String token = JwtUtil.getToken(String.valueOf(user.getId()));
         loginUserRsponse.setToken(token);
-        loginUserRsponse.setAuthorities(new String[]{"category:view"});
+        loginUserRsponse.setAuthorities(PerssionConfig.getPerssionList().stream().map(u->u).toArray(String[]::new));
         return new UsernamePasswordAuthenticationToken(loginUserRsponse,loginUserRsponse.getAccountName(), AuthorityUtils.createAuthorityList(loginUserRsponse.getAuthorities()));
     }
 

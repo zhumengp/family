@@ -49,7 +49,7 @@ public class UserController {
      * @param pageSize
      * @return
      */
-    @PreAuthorize("hasAuthority('category:view')")
+    @PreAuthorize("hasAuthority('user:view')")
     @RequestMapping(value = "/page")
     public ResultWrap page(@RequestParam(value="pageIndex",required= true,defaultValue = "1")Integer pageIndex,
                                                   @RequestParam(value="pageSize",required= true,defaultValue = "10")Integer pageSize){
@@ -116,7 +116,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @PreAuthorize("hasAuthority('category:delete')")
+    @PreAuthorize("hasAuthority('user:delete')")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     @ResponseBody
     public ResultWrap delete(@RequestParam(value = "id",required = true) long id){

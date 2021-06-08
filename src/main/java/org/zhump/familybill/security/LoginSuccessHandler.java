@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.zhump.familybill.controller.response.LoginUserRsponse;
+import org.zhump.familybill.util.JackJsonUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,11 +32,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
-		LoginUserRsponse principal = (LoginUserRsponse)authentication.getPrincipal();
+		LoginUserRsponse loginUserRsponse = (LoginUserRsponse)authentication.getPrincipal();
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.print(principal.getToken());
+		out.print(JackJsonUtils.toJson(loginUserRsponse));
 		out.flush();
 		out.close();
 	}
