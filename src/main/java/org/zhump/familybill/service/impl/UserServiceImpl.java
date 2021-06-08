@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         //设置新密码
         String oldPassword = user.getPassword();
         String salt = UUID.randomUUID().toString().replace("-","");
-        String newPassword = Md5Util.getMd5Str(oldPassword+salt);
+        String newPassword = Md5Util.getMd5Str(oldPassword+salt+user.getAccountName());
         //设置盐
         user.setSalt(salt);
         user.setPassword(newPassword);

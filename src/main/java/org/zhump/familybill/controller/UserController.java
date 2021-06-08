@@ -57,7 +57,7 @@ public class UserController {
             PageInfo<List<User>> result = userService.selectAll(pageIndex, pageSize);
             return new ResultWrap(Constants.Status.SUCCESS,result);
         }catch (Exception e){
-            return new ResultWrap(Constants.Status.Error,"");
+            return new ResultWrap(Constants.Status.Error);
         }
     }
 
@@ -100,8 +100,7 @@ public class UserController {
             User user = new User();
             BeanUtils.copyProperties(userUpdateRequest,user);
             boolean update = userService.update(user);
-            return update == true ? new ResultWrap<>(Constants.Status.SUCCESS,update)
-            : new ResultWrap<>(Constants.Status.FAIL,update);
+            return update == true ? new ResultWrap<>(Constants.Status.SUCCESS,update) : new ResultWrap<>(Constants.Status.FAIL,update);
         }catch (Exception e){
             if (e instanceof BusinessException){
                 return new ResultWrap(Constants.Status.FAIL,e.getMessage());

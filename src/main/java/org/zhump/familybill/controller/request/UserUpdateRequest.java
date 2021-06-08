@@ -38,10 +38,6 @@ public class UserUpdateRequest {
      */
     private String wx;
     /**
-     * 登录账户
-     */
-    private String accountName;
-    /**
      * 密码
      */
     private String password;
