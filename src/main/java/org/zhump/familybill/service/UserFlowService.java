@@ -1,6 +1,7 @@
 package org.zhump.familybill.service;
 
 
+import org.apache.ibatis.annotations.Param;
 import org.zhump.familybill.controller.response.UserFlowCateMontChartResponse;
 import org.zhump.familybill.module.PageInfo;
 import org.zhump.familybill.module.UserFlow;
@@ -93,4 +94,13 @@ public interface UserFlowService {
      * @return
      */
     List<Map<String,Object>> selectYears();
+
+  /**
+   * 按天汇总
+   * @return
+   */
+  List<Map<String,Object>> selectDay();
+
+
+  Map<String,Object> selectDayParams(String date);
 }

@@ -1,6 +1,7 @@
 package org.zhump.familybill.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.zhump.familybill.module.UserFlow;
 import org.zhump.familybill.vo.CateMontChartDTO;
 
@@ -70,4 +71,18 @@ public interface UserFlowDao {
      * @return
      */
     List<Map<String,Object>> selectYears();
+
+    /**
+     * 按天统计-汇总上报
+     * @return
+     */
+    List<Map<String,Object>> selectDay();
+
+    /**
+     * 按天统计-汇总上报
+     * @return
+     */
+    Map<String,Object> selectDayparams(@Param("date")String date);
+
+
 }

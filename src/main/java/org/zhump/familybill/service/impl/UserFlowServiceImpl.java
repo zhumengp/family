@@ -196,4 +196,14 @@ public class UserFlowServiceImpl implements UserFlowService {
     public List<Map<String, Object>> selectYears() {
         return userFlowDao.selectYears();
     }
+
+    @Override
+    public List<Map<String, Object>> selectDay() {
+        return userFlowDao.selectDay();
+    }
+
+    @Override
+    public Map<String, Object> selectDayParams(String date) {
+        return userFlowDao.selectDayparams(date);
+    }
 }

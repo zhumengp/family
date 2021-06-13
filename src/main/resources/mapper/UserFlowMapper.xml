@@ -15,7 +15,7 @@
     </resultMap>
     <!-- 获取所有数据 -->
 
-    <insert id="insert" parameterType="org.zhump.familybill.module.Category">
+    <insert id="insert" parameterType="org.zhump.familybill.module.UserFlow">
         insert into user_flow (USER_ID,CATEGORY_ID,PRICE,COMSUME_TIME,REMARK)
         VALUES (#{userId},#{categoryId},#{price},#{comsumeTime},#{remark})
     </insert>
@@ -88,6 +88,30 @@
 
     <select id="selectYears" resultType="map">
         SELECT DATE_FORMAT(t.COMSUME_TIME,'%Y') year_time,SUM(t.price) price FROM `user_flow` t GROUP BY year_time;
+    </select>
+
+    <!--按天汇总-->
+    <select id="selectDay" resultType="map">
+        SELECT
+      DATE_FORMAT(COMSUME_TIME, '%Y-%m-%d') day_time,
+      SUM(price) price,
+      create_time AS createTime,
+      update_time AS updateTime
+    FROM
+      user_flow
+    GROUP BY day_time
+    </select>
+
+    <select id="selectDayparams" resultType="map">
+        SELECT
+      DATE_FORMAT(COMSUME_TIME, '%Y-%m-%d') day_time,
+      SUM(price) price,
+      create_time AS createTime,
+      update_time AS updateTime
+    FROM
+      user_flow
+      where day_time = #{date}
+    GROUP BY day_time
     </select>
 
 

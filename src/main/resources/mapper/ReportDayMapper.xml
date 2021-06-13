@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zhump.familybill.dao.ReportDayDao">
+
+    <!-- 实体和表的映射关系 -->
+    <resultMap type="org.zhump.familybill.module.ReportDay" id="responseMap">
+        <result column="ID" property="id"/>
+        <result column="PRICE" property="price"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="REPORT_DATE" property="reportDate"/>
+    </resultMap>
+    <!-- 获取所有数据 -->
+
+    <insert id="insert" parameterType="org.zhump.familybill.module.ReportDay">
+        insert into report_day (PRICE,REPORT_DATE)
+        VALUES (#{price},#{reportDate})
+    </insert>
+</mapper>

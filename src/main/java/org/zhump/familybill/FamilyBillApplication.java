@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +20,7 @@ import javax.annotation.PostConstruct;
  *@author zhump
  *@date 2021/4/10 20:25
  */
+@EnableScheduling
 @SpringBootApplication
 @Log4j2
 public class FamilyBillApplication extends SpringBootServletInitializer {
