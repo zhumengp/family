@@ -5,6 +5,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.zhump.familybill.contants.Constants;
+import org.zhump.familybill.contants.ResultWrap;
 import org.zhump.familybill.controller.response.LoginUserRsponse;
 import org.zhump.familybill.util.JackJsonUtils;
 
@@ -36,7 +38,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.print(JackJsonUtils.toJson(loginUserRsponse));
+		String str = "{\"code\":\"200\",\"msg\":\"操作成功\",\"data\":"+JackJsonUtils.toJson(loginUserRsponse)+"}";
+		out.print(str);
 		out.flush();
 		out.close();
 	}

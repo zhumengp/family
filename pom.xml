@@ -21,11 +21,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
-                <!--移除tomcat,使用外部tomcat跑
+                <!--移除tomcat,使用外部tomcat跑-->
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>-->
+                </exclusion>
                 <!--去掉自带日志-->
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -69,11 +69,18 @@
             <artifactId>jackson-module-jaxb-annotations</artifactId>
             <version>2.8.2</version>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- 分页 -->
       <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
       <version>5.1.2</version>
+
   </dependency>
   <dependency>
        <groupId>com.github.pagehelper</groupId>

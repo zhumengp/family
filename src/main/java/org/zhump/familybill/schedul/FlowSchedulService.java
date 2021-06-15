@@ -36,13 +36,13 @@ public class FlowSchedulService {
     /**
      * 每天23点50分50秒开始统计
      */
-    @Scheduled(cron = "50 50 23 * * ? ")
+    @Scheduled(cron = "58 59 23 * * ? ")
     public void dayStatisticsJob(){
         log.info("每天23点50分50秒开始统计当天的累计消费金额开始");
         //获取当前日志
         String format = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         //查询当天的汇总数据
-        Map<String, Object> stringObjectMap = userFlowService.selectDayParams(format);
+        Map<String, Object> stringObjectMap = userFlowService.selectDayParams();
         if (stringObjectMap == null || stringObjectMap.size() <=0){
             log.info("定时任务按天通知 dayStatisticsJob() 未统计到数据");
             return;

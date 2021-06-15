@@ -104,14 +104,14 @@
 
     <select id="selectDayparams" resultType="map">
         SELECT
-      DATE_FORMAT(COMSUME_TIME, '%Y-%m-%d') day_time,
-      SUM(price) price,
-      create_time AS createTime,
-      update_time AS updateTime
-    FROM
-      user_flow
-      where day_time = #{date}
-    GROUP BY day_time
+        DATE_FORMAT(COMSUME_TIME, '%Y-%m-%d') day_time,
+        SUM(price) price,
+        create_time AS createTime,
+        update_time AS updateTime
+        FROM
+        user_flow
+        where COMSUME_TIME <![CDATA[>=]]> #{startTime}  AND COMSUME_TIME <![CDATA[<=]]> #{endTime} AND ISNULL(COMSUME_TIME)
+        GROUP BY day_time
     </select>
 
 

@@ -102,5 +102,9 @@ public interface UserFlowService {
   List<Map<String,Object>> selectDay();
 
 
-  Map<String,Object> selectDayParams(String date);
+  /**
+   * 查询当天的数据进行汇总
+   * @return
+   */
+  Map<String,Object> selectDayParams();
 }

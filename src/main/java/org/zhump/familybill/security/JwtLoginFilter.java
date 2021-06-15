@@ -26,7 +26,8 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter  {
 
 
     public JwtLoginFilter(AuthenticationManager authenticationManager) {
-        super(new AntPathRequestMatcher("/login/login", "POST"));// 设置拦截规则
+        //设置拦截规则
+        super(new AntPathRequestMatcher("/login/", "POST"));
         setAuthenticationSuccessHandler(new LoginSuccessHandler());
         this.authenticationManager = authenticationManager;
     }

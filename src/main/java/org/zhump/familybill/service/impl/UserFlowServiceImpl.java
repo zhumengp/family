@@ -1,6 +1,7 @@
 package org.zhump.familybill.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -203,7 +204,10 @@ public class UserFlowServiceImpl implements UserFlowService {
     }
 
     @Override
-    public Map<String, Object> selectDayParams(String date) {
-        return userFlowDao.selectDayparams(date);
+    public Map<String, Object> selectDayParams() {
+        String format = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
+        String startTime = format + " 00:00:01";
+        String endTime = format + " 23:59:59";
+        return userFlowDao.selectDayparams(startTime,endTime);
     }
 }

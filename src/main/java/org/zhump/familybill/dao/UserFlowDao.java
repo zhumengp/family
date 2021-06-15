@@ -82,7 +82,7 @@ public interface UserFlowDao {
      * 按天统计-汇总上报
      * @return
      */
-    Map<String,Object> selectDayparams(@Param("date")String date);
+    Map<String,Object> selectDayparams(@Param("startTime")String startTime,@Param("endTime")String endTime);
 
 
 }
