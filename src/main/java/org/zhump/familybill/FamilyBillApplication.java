@@ -25,9 +25,6 @@ import javax.annotation.PostConstruct;
 @Log4j2
 public class FamilyBillApplication extends SpringBootServletInitializer {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
-
     public static void main(String[] args) {
         SpringApplication.run(FamilyBillApplication.class, args);
     }
