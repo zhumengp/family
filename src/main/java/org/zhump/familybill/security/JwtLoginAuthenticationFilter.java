@@ -44,7 +44,7 @@ public class JwtLoginAuthenticationFilter extends BasicAuthenticationFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("进入 JwtLoginAuthenticationFilter的doFilterInternal()请求:[{}]",request.getRequestURI()+",请求参数:[{}]",request.getParameterNames());
+        log.info("进入 JwtLoginAuthenticationFilter的doFilterInternal()请求:[{}],请求参数:[{}]",request.getRequestURI(),request.getParameterNames());
         //获取请求头信息
         String authentication = JwtUtil.getAuthentication(request);
         if (StringUtils.isBlank(authentication)) {
@@ -57,7 +57,6 @@ public class JwtLoginAuthenticationFilter extends BasicAuthenticationFilter {
         UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(Long.valueOf(authentication));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         chain.doFilter(request,response);
-
     }
 
     /**

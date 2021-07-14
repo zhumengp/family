@@ -80,6 +80,13 @@
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
       <version>5.1.2</version>
+      </dependency>
+    <!--国密加密算法-->
+    <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk15on</artifactId>
+        <version>1.64</version>
+    </dependency>
 
   </dependency>
   <dependency>
