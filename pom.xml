@@ -87,8 +87,6 @@
         <artifactId>bcprov-jdk15on</artifactId>
         <version>1.64</version>
     </dependency>
-
-  </dependency>
   <dependency>
        <groupId>com.github.pagehelper</groupId>
        <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
