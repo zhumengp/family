@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -49,19 +50,25 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
         String accountName = authentication.getName();
         //判断用户名是否为空
         if (StringUtils.isBlank(accountName)){
-            throw new UsernameNotFoundException("用户名不能为空");
+            throw new AuthenticationException("用户名不能为空"){
+                private static final long serialVersionUID = 4241241525163064123L;
+            };
         }
         //密码
         String password = authentication.getCredentials().toString();
         if (StringUtils.isBlank(password)){
-            throw new CredentialsExpiredException("密码错误");
+            throw new AuthenticationException("密码错误"){
+                private static final long serialVersionUID = 4241241525163064123L;
+            };
         }
         //查询数据库
         LoginUserRsponse loginUserRsponse = new LoginUserRsponse();
         //校验用户回是否是我需要账号
         User user = loginService.findByAccountName(accountName);
         if (user == null){
-            throw new UsernameNotFoundException("用户名或者账户密码错误");
+            throw new AuthenticationException("用户名或者账户密码错误"){
+                private static final long serialVersionUID = 4241241525163064123L;
+            };
         }
         //旧密码
         String oldPassword=user.getPassword();
@@ -69,7 +76,9 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
         String newPassword = Md5Util.getMd5Str(password+user.getSalt());
         //比对密码
         if(!newPassword.equals(oldPassword)){
-            throw new UsernameNotFoundException("用户名或者账户密码错误");
+            throw new AuthenticationException("用户名或者账户密码错误"){
+                private static final long serialVersionUID = 4241241525163064123L;
+            };
         }
         BeanUtils.copyProperties(user,loginUserRsponse);
         String token = JwtUtil.getToken(String.valueOf(user.getId()));
