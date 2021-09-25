@@ -22,8 +22,7 @@ public class LoginFailHandler implements AuthenticationFailureHandler {
      * @throws IOException
      * @throws ServletException
      */
-    public void onAuthenticationFailure(HttpServletRequest request,
-                                        HttpServletResponse response, AuthenticationException exception)
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
         if (exception instanceof AuthenticationException) {
             request.setCharacterEncoding("UTF-8");
